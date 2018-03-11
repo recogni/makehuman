@@ -419,7 +419,7 @@ def supportedImageFormats():
     The image formats supported by MakeHuman. This is determined by the plugins
     that were loaded into the Qt libraries.
     """
-    return [ str(s).lower() for s in QtGui.QImageReader.supportedImageFormats() ]
+    return [ str(bytes(s), encoding='utf-8').lower() for s in QtGui.QImageReader.supportedImageFormats() ]
 
 class Frame(QtWidgets.QMainWindow):
 

@@ -73,14 +73,14 @@ class FileCache(object):
 
     def getMetadata(self, filename):
         """Retrieve a metadata entry from this cache"""
-        fileId = getpath.canonicalPath(filepath)
+        fileId = getpath.canonicalPath(filename)
         return self[fileId]
 
     def cleanup(self):
         """
         Remove non-existing entries from this cache
         """
-        for fileId in list(self._cache.keys()):
+        for fileId in self._cache.keys():
             if not os.path.exists(fileId):
                 try:
                     del self._cache[fileId]
@@ -131,7 +131,7 @@ class FileCache(object):
         fileExts = [f[1:].lower() if f.startswith('.') else f.lower() for f in fileExts]
 
         files = []
-        oldEntries = dict((key, True) for key in list(self._cache.keys())) # lookup dict for old entries in cache
+        oldEntries = dict((key, True) for key in self._cache.keys()) # lookup dict for old entries in cache
         for folder in paths:
             files.extend(getpath.search(folder, fileExts, recursive=True, mutexExtensions=True))
         for filepath in files:
@@ -155,7 +155,7 @@ class FileCache(object):
 
         if removeOldEntries:
             """Remove entries from cache that no longer exist"""
-            for key in list(oldEntries.keys()):
+            for key in oldEntries.keys():
                 try:
                     del self._cache[key]
                 except:
@@ -171,10 +171,10 @@ class FileCache(object):
         return len(self._cache)
 
     def items(self):
-        return list(self._cache.items())
+        return self._cache.items()
 
     def keys(self):
-        return list(self._cache.keys())
+        return self._cache.keys()
 
 
 class MetadataCacher(object):
@@ -266,7 +266,7 @@ class MetadataCacher(object):
 
     def getAllTags(self):
         result = set()
-        for (path, metadata) in list(self._filecache.items()):
+        for (path, metadata) in self._filecache.items():
             tags = self.getTagsFromMetadata(metadata[1:])
             result = result.union(tags)
         return result

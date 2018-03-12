@@ -258,6 +258,9 @@ class MHApplication(gui3d.Application, mh.Application):
                 'windowGeometry': ''
             }
 
+        from PyQt5.QtGui import qt_set_sequence_auto_mnemonic
+        qt_set_sequence_auto_mnemonic(False)
+
         self._settings = dict(self._default_settings)
 
         self.loadHandlers = {}
